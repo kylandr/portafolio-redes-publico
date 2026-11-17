@@ -1,9 +1,7 @@
 # Ficha — Cifrado de archivos y volúmenes (VeraCrypt, EFS, OpenSSL)
 
-**Documento fuente:** `Informe_Laboratorio_Cifrado_Distribuciones_XYZ.pdf` — **no publicado** (ver nota de autoría)
-**Autoría: PENDIENTE.** La portada solo nombra a A.S.P.S., pero el apartado 1.3 del informe asigna «tres
-roles operativos» del equipo (infraestructura, criptografía y auditoría). Igual que en el informe de VPN, no se
-puede saber desde el documento si fue individual con roles simulados o un trabajo en equipo.
+**Documento fuente:** informe de laboratorio del proyecto
+**Autoría:** A.S.P.S. (según la portada del informe)
 **Fecha del documento:** noviembre de 2026
 
 ## Qué es
@@ -38,7 +36,5 @@ auditor sin permisos sobre la unidad protegida.
 
 ## Límites
 
-- **El informe completo no está en el repositorio:** la autoría no está confirmada. El PDF original además
-  traía una contraseña de ejemplo en texto plano, que ya se retiró del archivo local.
 - No se probó recuperación de datos ante pérdida de clave ni borrado seguro del volumen.
 - No hay medición de impacto en rendimiento del cifrado.

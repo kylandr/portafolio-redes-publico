@@ -1,6 +1,6 @@
 # Ficha — Zabbix 7.0 para el monitoreo integral de una red empresarial
 
-**Documento fuente:** `Informe_Laboratorio_Zabbix.pdf` (26 páginas) — **no publicado** (ver nota)
+**Documento fuente:** informe de laboratorio del proyecto (26 páginas)
 **Autoría:** grupal — A.S.P.S. y D.F.R.C.
 **Instructor:** Juan Carlos Sanabria A.
 **Ficha de formación:** 3171046 — SENA Sede Industrial, Neiva, Huila
@@ -53,9 +53,6 @@ supervisión, definir alertas ante eventos críticos y analizar los indicadores 
 
 ## Límites y lo que no está demostrado
 
-- **El informe completo no está en el repositorio** por dos razones: una captura del `zabbix_server.conf`
-  muestra la contraseña de la base de datos en texto plano, y la portada trae el nombre completo del
-  compañero de equipo. Ambas cosas se resuelven antes de publicarlo.
 - Las alertas se evaluaron con simulaciones controladas (apagar una VM), no con fallos de producción.
 - No hay monitoreo de una red real de empresa ni integración con un sistema de notificación externo
   (correo/Telegram) documentada con evidencias.

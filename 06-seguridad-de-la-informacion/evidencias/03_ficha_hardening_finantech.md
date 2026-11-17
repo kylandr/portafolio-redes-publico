@@ -19,7 +19,7 @@ aplicar políticas de acceso estrictas por segmento.
 - Caso: *FinanTech Solutions* (área contable y servidores públicos).
 - Firewall/segmentación según el diseño del curso, con DMZ y ACLs por zona.
 - Práctica acompañada de archivos de Packet Tracer (`Laboratorio-Hardening1.pka` y `2.pka`, conservados en
-  local, no publicados por contener credenciales de dispositivos).
+  local: son binarios de simulación que no se pueden auditar como texto).
 
 ## Qué se hizo
 

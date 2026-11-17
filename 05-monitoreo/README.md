@@ -5,7 +5,7 @@ centralizado.
 
 | Trabajo | Qué demuestra | Autoría | Fecha | Evidencia |
 |---|---|---|---|---|
-| [Zabbix 7.0 + rsyslog](evidencias/01_ficha_zabbix.md) | Servidor de monitoreo completo: agentes y SNMP, integración de pfSense, tableros, alertas y tres simulaciones de incidentes | grupal (A.S.P.S., D.F.R.C.) | 2026 | ficha (informe completo **pendiente de depuración**) |
+| **[Zabbix 7.0 + rsyslog](evidencias/01_ficha_zabbix.md)** | Servidor de monitoreo completo: agentes y SNMP, integración de pfSense, tableros, alertas y tres simulaciones de incidentes | grupal (A.S.P.S., D.F.R.C.) | 2026 | ficha |
 | [SNMP sobre Windows](evidencias/02_ficha_snmp.md) | Consulta de CPU, RAM, discos y software instalado con `snmpget`/`snmpwalk` | individual | abr-2026 | ficha |
 | [ntopng en pfSense](evidencias/03_ficha_ntopng.md) | Clasificación de tráfico por protocolo y aplicación, consumo por host | grupal (A.S.P.S., D.F.R.C.) | 2026 | ficha |
 
@@ -21,12 +21,6 @@ centralizado.
   caída y cuánto tarda la alerta.
 - **Reparto de roles:** infraestructura (máquinas virtuales en Proxmox), monitoreo (Zabbix, hosts, tableros)
   y operaciones (SNMP, pruebas, documentación).
-
-## Por qué el informe completo no está aquí
-
-Dos detalles de depuración, ninguno técnico: una captura del archivo de configuración muestra la contraseña
-de la base de datos en texto plano, y la portada trae el nombre completo del compañero de equipo. Se publica
-cuando estén resueltos (captura tapada y nombre cambiado a iniciales, si él lo autoriza).
 
 ## Mi aporte
 

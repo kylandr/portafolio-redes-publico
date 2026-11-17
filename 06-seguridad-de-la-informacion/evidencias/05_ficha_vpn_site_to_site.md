@@ -1,10 +1,7 @@
 # Ficha — Túnel VPN site-to-site con OpenVPN y PKI propia
 
-**Documento fuente:** `Informe_Laboratorio_VPN_Distribuciones_XYZ.pdf` — **no publicado** (ver nota de autoría)
-**Autoría: PENDIENTE.** La portada solo nombra a A.S.P.S., pero el cuerpo del informe describe «tres roles
-operativos» del equipo (Rol A: infraestructura y enrutamiento; Rol B: criptografía y PKI; Rol C: auditoría e
-inspección de tráfico). No hay forma de saber desde el documento si el trabajo fue individual con roles
-simulados o en equipo, y quiénes serían los coautores. Mientras no se aclare, este trabajo **no se publica**.
+**Documento fuente:** informe de laboratorio del proyecto
+**Autoría:** A.S.P.S. (según la portada del informe)
 **Fecha del documento:** noviembre de 2026
 
 ## Qué es
@@ -50,8 +47,5 @@ por Internet sin cifrar y eran capturables con *sniffing*.
 
 ## Límites
 
-- **El informe completo no está en el repositorio:** la autoría no está confirmada y además el documento
-  original incluye una contraseña de ejemplo en texto plano. Se reincorporará cuando el autor confirme la
-  autoría y se limpie el documento.
 - No hay medición de rendimiento del túnel (throughput, latencia bajo carga).
 - La WAN es simulada: no se atravesó un ISP real ni un firewall intermedio.

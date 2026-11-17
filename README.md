@@ -16,7 +16,7 @@ hardware y switch Huawei es el principal):
 |---|---|---|
 | **[OPNsense en hardware físico y laboratorio](01-seguridad-perimetral/opnsense-sena/README.md)** | Firewall segmentado en 4 VLAN sobre troncal 802.1Q contra un switch Huawei, 21 reglas guardadas en el equipo físico, Suricata IPS, QoS y 11 pruebas instrumentadas en el entorno virtual | Montaje físico + laboratorio virtual |
 | **[pfSense sobre Proxmox VE](01-seguridad-perimetral/pfsense/README.md)** | Filtrado DNSBL con pfBlockerNG, anti-bypass de DNS por NAT y Limiters QoS, sobre dos bridges de Proxmox; más dos laboratorios previos de segmentación y DMZ | 3 informes, 2 completos en PDF |
-| **[Zabbix 7.0 + rsyslog](05-monitoreo/README.md)** | Servidor de monitoreo con agentes y SNMP, integración de pfSense, tableros, alertas y tres simulaciones de incidentes | Ficha técnica detallada |
+| **[Zabbix 7.0 + rsyslog](05-monitoreo/evidencias/01_ficha_zabbix.md)** | Servidor de monitoreo con agentes y SNMP, integración de pfSense, tableros, alertas y tres simulaciones de incidentes | Ficha técnica |
 | **[GLPI 11 sobre Debian 13](03-servidores/glpi/README.md)** | Mesa de servicio e inventario: tutorial en video de la implementación, informe de instalación y agente de inventario en Windows | Video + informe + ficha |
 
 ## Índice por tema
@@ -39,10 +39,10 @@ hardware y switch Huawei es el principal):
 - Cisco CME con IP Communicator y diseño de solución VoIP.
 
 ### 05. Monitoreo
-- [Zabbix 7.0, SNMP y ntopng](05-monitoreo/README.md).
+- [Zabbix 7.0, SNMP y ntopng](05-monitoreo/README.md) — Zabbix en [ficha](05-monitoreo/evidencias/01_ficha_zabbix.md).
 
 ### 06. Seguridad de la información
-- [Hardening, plan de seguridad, cifrado y VPN (los dos últimos como ficha, autoría pendiente)](06-seguridad-de-la-informacion/README.md).
+- [Hardening, plan de seguridad, cifrado y VPN](06-seguridad-de-la-informacion/README.md).
 
 ### 07. Apuntes técnicos
 - [Notas de referencia](07-apuntes-tecnicos/README.md) — Huawei VRP, Active Directory, Zabbix y hardening de Linux.
@@ -69,18 +69,6 @@ hashes de contraseñas y claves de VPN. Se conservan en local y de ellos se extr
 binarios de simulación que no se pueden auditar de forma fiable y no aportan nada que no esté en las fichas.
 
 Los rangos `10.x`, `192.168.x` y los nombres de dominio usados son de laboratorio.
-
-## Estado de publicación
-
-Tres informes completos quedan fuera de esta versión y se publicarán cuando se resuelvan sus pendientes:
-
-| Informe | Motivo |
-|---|---|
-| VPN site-to-site (OpenVPN) | Autoría no confirmada: la portada nombra a una persona pero el cuerpo describe tres roles de equipo. Además el PDF contiene una contraseña en texto plano. |
-| Cifrado en reposo (VeraCrypt/EFS/OpenSSL) | Misma situación de autoría (tres roles sin coautores). |
-| Zabbix 7.0 + rsyslog | Una captura muestra la contraseña de la base de datos y la portada trae el nombre completo de un compañero, que pasará a iniciales hasta que él lo autorice. |
-
-De los tres hay ficha publicada, así que el trabajo y sus resultados quedan documentados.
 
 ## Contacto
 

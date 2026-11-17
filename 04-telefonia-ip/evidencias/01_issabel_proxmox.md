@@ -40,5 +40,4 @@ Simular un entorno real de ISP/Telefonía integrando virtualización empresarial
 - El manual VoIP (Cisco CME) y el diseño básico son trabajos **grupales** distintos y no forman parte de este laboratorio Issabel individual.
 
 ## Fechas
-- **Fecha del informe**: no confirmada (pendiente de verificación)
 - **Plan de trabajo concertado**: marzo 2026 (entregas programadas marzo 3/26)
