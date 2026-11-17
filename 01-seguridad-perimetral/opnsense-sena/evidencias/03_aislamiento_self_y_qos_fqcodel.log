@@ -1,0 +1,86 @@
+# Evidencia — Auditoría de aislamiento hacia el firewall (self) y QoS real con FQ_CoDel
+# Fuente: log 10 del laboratorio (2026-11-12). Extracto depurado:
+#   - sección de sockets comprimida (se indican las líneas omitidas de unbound)
+#   - secciones 2, 3 y 4 íntegras
+# Sin credenciales ni claves; el log original no las contenía.
+
+=== 1. SERVICIOS DE GESTION Y SOCKETS EN OPNSENSE ===
+root    sshd        7723  6 tcp4  10.50.10.1:22         *:*
+root    sshd        7723  8 tcp4  192.168.1.1:22        *:*
+root    sshd        7723 11 tcp4  127.0.0.1:22          *:*
+root    lighttpd   91383  7 tcp4  127.0.0.1:443         *:*
+root    lighttpd   91383 10 tcp4  192.168.1.1:443       *:*
+root    lighttpd   91383 12 tcp4  10.50.10.1:443        *:*
+root    lighttpd   91383 13 tcp4  127.0.0.1:80          *:*
+root    lighttpd   91383 16 tcp4  192.168.1.1:80        *:*
+root    lighttpd   91383 18 tcp4  10.50.10.1:80         *:*
+root    suricata   17026  6 div4  *:8000                *:*
+_flowd  flowd      46676  3 udp4  127.0.0.1:2056        *:*
+unbound unbound    27310  5 udp4  127.0.0.1:53          *:*
+unbound unbound    27310  6 tcp4  127.0.0.1:53          *:*
+unbound unbound    27310 11 udp4  192.168.1.1:53        *:*
+unbound unbound    27310 12 tcp4  192.168.1.1:53        *:*
+   [... 26 líneas más de unbound: escucha DNS en 127.0.0.1, 192.168.1.1 y en las cuatro IP de VLAN (10.50.10.1/20.1/30.1/40.1) ...]
+nobody  dnsmasq    88294  4 udp4  *:67                  *:*
+nobody  dnsmasq    88294 10 udp4  *:53053               *:*
+nobody  dnsmasq    88294 11 tcp4  *:53053               *:*
+
+=== 2. PRUEBA DE EXPOSICION (self) DESDE USERS, DMZ Y GUEST ===
+[ns_users -> IPs del firewall]
+  10.0.2.15 443 => nc: connect to 10.0.2.15 port 443 (tcp) timed out: Operation now in progress
+  10.50.99.1 443 => nc: connect to 10.50.99.1 port 443 (tcp) timed out: Operation now in progress
+  192.168.1.1 443 => nc: connect to 192.168.1.1 port 443 (tcp) timed out: Operation now in progress
+  10.50.10.1 443 => nc: connect to 10.50.10.1 port 443 (tcp) timed out: Operation now in progress
+  10.50.20.1 443 => nc: connect to 10.50.20.1 port 443 (tcp) timed out: Operation now in progress
+  10.50.20.1 22 => nc: connect to 10.50.20.1 port 22 (tcp) timed out: Operation now in progress
+  10.50.20.1 53053 => nc: connect to 10.50.20.1 port 53053 (tcp) timed out: Operation now in progress
+[ns_dmz -> IPs del firewall]
+  10.0.2.15 443 => nc: connect to 10.0.2.15 port 443 (tcp) timed out: Operation now in progress
+  10.50.99.1 443 => nc: connect to 10.50.99.1 port 443 (tcp) timed out: Operation now in progress
+  192.168.1.1 443 => nc: connect to 192.168.1.1 port 443 (tcp) timed out: Operation now in progress
+  10.50.10.1 443 => nc: connect to 10.50.10.1 port 443 (tcp) timed out: Operation now in progress
+  10.50.20.1 443 => nc: connect to 10.50.20.1 port 443 (tcp) timed out: Operation now in progress
+  10.50.20.1 22 => nc: connect to 10.50.20.1 port 22 (tcp) timed out: Operation now in progress
+  10.50.20.1 53053 => nc: connect to 10.50.20.1 port 53053 (tcp) timed out: Operation now in progress
+[ns_guest -> IPs del firewall]
+  10.0.2.15 443 => nc: connect to 10.0.2.15 port 443 (tcp) timed out: Operation now in progress
+  10.50.99.1 443 => nc: connect to 10.50.99.1 port 443 (tcp) timed out: Operation now in progress
+  192.168.1.1 443 => nc: connect to 192.168.1.1 port 443 (tcp) timed out: Operation now in progress
+  10.50.10.1 443 => nc: connect to 10.50.10.1 port 443 (tcp) timed out: Operation now in progress
+  10.50.20.1 443 => nc: connect to 10.50.20.1 port 443 (tcp) timed out: Operation now in progress
+  10.50.20.1 22 => nc: connect to 10.50.20.1 port 22 (tcp) timed out: Operation now in progress
+  10.50.20.1 53053 => nc: connect to 10.50.20.1 port 53053 (tcp) timed out: Operation now in progress
+[ns_admin -> Administracion autorizada]
+  10.50.10.1 443 => Connection to 10.50.10.1 443 port [tcp/https] succeeded!
+  10.50.10.1 22 => Connection to 10.50.10.1 22 port [tcp/ssh] succeeded!
+  192.168.1.1 443 => Connection to 192.168.1.1 443 port [tcp/https] succeeded!
+
+=== 3. MATRIZ COMPLETA DE AISLAMIENTO ENTRE ZONAS ===
+ADMIN -> USERS IP (10.50.20.10): BLOQUEADO
+ADMIN -> DMZ:80 (10.50.30.10): HTTP 200
+ADMIN -> GUEST IP (10.50.40.10): BLOQUEADO
+USERS -> DMZ:80 (10.50.30.10): HTTP 200
+USERS -> DMZ:22 (10.50.30.10): BLOQUEADO
+USERS -> ADMIN (10.50.10.1): BLOQUEADO
+USERS -> GUEST (10.50.40.1): BLOQUEADO
+DMZ -> ADMIN (10.50.10.1): BLOQUEADO
+DMZ -> USERS (10.50.20.1): BLOQUEADO
+DMZ -> GUEST (10.50.40.1): BLOQUEADO
+GUEST -> ADMIN (10.50.10.1): BLOQUEADO
+GUEST -> USERS (10.50.20.1): BLOQUEADO
+GUEST -> DMZ:80 (10.50.30.10): BLOQUEADO
+
+
+=== 4. MEDICION REAL DE ANCHO DE BANDA QoS FQ_CODEL (ADMIN sin limite vs GUEST Queue 10000 5M / Queue 10001 2M) ===
+2026-11-12T22:36:11-05:00
+--- Estado ipfw BEFORE ---
+10000:   5.000 Mbit/s    0 ms burst 0
+q75536  50 sl. 0 flows (1 buckets) sched 10000 weight 0 lmax 0 pri 0 droptail
+ sched 10000 type FQ_CODEL flags 0x0 0 buckets 0 active
+ FQ_CODEL target 5ms interval 100ms quantum 1514 limit 10240 flows 1024 NoECN
+   Children flowsets: 10000
+10001:   2.000 Mbit/s    0 ms burst 0
+q75537  50 sl. 0 flows (1 buckets) sched 10001 weight 0 lmax 0 pri 0 droptail
+ sched 10001 type FQ_CODEL flags 0x0 0 buckets 0 active
+ FQ_CODEL target 5ms interval 100ms quantum 1514 limit 10240 flows 1024 NoECN
+   Children flowsets: 10001

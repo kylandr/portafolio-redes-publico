@@ -1,0 +1,44 @@
+# Evidencia — Matriz de firewall entre zonas y bloqueo hacia el propio firewall
+# Fuente: log 03 del laboratorio (OPNsense 26.7 sobre FreeBSD 15.1). Extracto depurado:
+#   - se conserva el bloque de pruebas completo
+#   - del volcado filterlog se incluyen solo 6 líneas representativas
+#   - las MAC ya venían hasheadas en el log original; no hay credenciales en él
+# Entorno: laboratorio virtual. Los nombres *.sena.lab y las IP 10.50.x/192.168.x son inventados
+# para el ejercicio; no corresponden a infraestructura real.
+
+=== PRUEBA 03: MATRIZ FIREWALL ENTRE ZONAS Y LOGGING ===
+jue 12 nov 2026 22:02:02 -05
+[PERMITIDO] ns_admin -> Internet 8.8.8.8:
+2 packets transmitted, 2 received, 0% packet loss, time 1006ms
+rtt min/avg/max/mdev = 15.058/16.331/17.604/1.273 ms
+[PERMITIDO] ns_admin -> DMZ HTTP 10.50.30.10:80:
+HTTP 200
+[PERMITIDO] ns_users -> DMZ HTTP y HTTPS 10.50.30.10:
+HTTP 200
+HTTPS 200
+[BLOQUEADO] ns_users -> Admin FW WebGUI 10.50.20.1:443 y (self) WAN/WG:
+nc: connect to 10.50.20.1 port 443 (tcp) timed out: Operation now in progress
+RESULTADO: BLOQUEADO (timeout esperado)
+nc: connect to 10.0.2.15 port 443 (tcp) timed out: Operation now in progress
+RESULTADO (self WAN): BLOQUEADO (timeout esperado)
+nc: connect to 10.50.99.1 port 443 (tcp) timed out: Operation now in progress
+RESULTADO (self WG): BLOQUEADO (timeout esperado)
+[BLOQUEADO] ns_users -> ns_admin (10.50.10.163):
+2 packets transmitted, 0 received, 100% packet loss, time 1111ms
+
+[BLOQUEADO] ns_dmz -> ns_users (10.50.20.159):
+2 packets transmitted, 0 received, 100% packet loss, time 1005ms
+
+[BLOQUEADO] ns_guest -> DMZ 10.50.30.10:80:
+nc: connect to 10.50.30.10 port 80 (tcp) timed out: Operation now in progress
+RESULTADO: BLOQUEADO (timeout esperado)
+[PERMITIDO] ns_guest -> Internet HTTP example.com:
+Internet HTTP 200
+
+--- Extracto de /var/log/filter/ (6 líneas de las 18 registradas) ---
+<134>1 2026-11-12T22:02:05-05:00 OPNsense.internal filterlog 68485 - [meta sequenceId="280"] 114,,,fae559338f65e11c53669fc3642c93c2,vlan03,match,pass,out,4,0x0,,63,1573,0,DF,6,tcp,60,10.50.20.159,10.50.30.10,47642,80,0,S,931645261,,64240,,mss;sackOK;TS;nop;wscale
+<134>1 2026-11-12T22:02:05-05:00 OPNsense.internal filterlog 68485 - [meta sequenceId="281"] 128,,,9b4ff150-8caa-4b93-936f-7ae8e3898861,vlan02,match,pass,in,4,0x0,,64,32198,0,DF,6,tcp,60,10.50.20.159,10.50.30.10,41208,443,0,S,410216564,,64240,,mss;sackOK;TS;nop;wscale
+<134>1 2026-11-12T22:02:05-05:00 OPNsense.internal filterlog 68485 - [meta sequenceId="282"] 114,,,fae559338f65e11c53669fc3642c93c2,vlan03,match,pass,out,4,0x0,,63,32198,0,DF,6,tcp,60,10.50.20.159,10.50.30.10,41208,443,0,S,410216564,,64240,,mss;sackOK;TS;nop;wscale
+<134>1 2026-11-12T22:02:05-05:00 OPNsense.internal filterlog 68485 - [meta sequenceId="283"] 132,,,f29f781d-37f8-428f-9b20-5eb1a14875f0,vlan02,match,block,in,4,0x0,,64,25891,0,DF,6,tcp,60,10.50.20.159,10.50.20.1,40006,443,0,S,1556048425,,64240,,mss;sackOK;TS;nop;wscale
+<134>1 2026-11-12T22:02:06-05:00 OPNsense.internal filterlog 68485 - [meta sequenceId="284"] 132,,,f29f781d-37f8-428f-9b20-5eb1a14875f0,vlan02,match,block,in,4,0x0,,64,25892,0,DF,6,tcp,60,10.50.20.159,10.50.20.1,40006,443,0,S,1556048425,,64240,,mss;sackOK;TS;nop;wscale
+<134>1 2026-11-12T22:02:07-05:00 OPNsense.internal filterlog 68485 - [meta sequenceId="286"] 132,,,f29f781d-37f8-428f-9b20-5eb1a14875f0,vlan02,match,block,in,4,0x0,,64,23660,0,DF,6,tcp,60,10.50.20.159,10.0.2.15,33480,443,0,S,1350076792,,64240,,mss;sackOK;TS;nop;wscale

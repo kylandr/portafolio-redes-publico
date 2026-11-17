@@ -1,0 +1,14 @@
+# Archivos que nunca deben publicarse
+*.xml
+*.pkt
+*.pka
+*.pksz
+*.bin
+*.ovpn
+*.key
+*.pem
+*.crt
+*.p12
+*.kdbx
+*.zip
+.DS_Store
